@@ -3,17 +3,18 @@ package warcraftTD.monsters;
 import warcraftTD.towers.ArcherTower;
 import warcraftTD.towers.Tower;
 import warcraftTD.util.Position;
+import warcraftTD.util.StdDraw;
 
 public class Boss extends Monster {
-    public static final String IMAGEF = "images/Boss.png";
-    public static final String IMAGEW = "images/Bomb.png";
+    private static final String IMAGEF = "images/Boss.png";
+    private static final String IMAGEW = "images/Bomb.png";
 
-    public Sting image
+    public String image;
     protected long time;
     public char state;
 
     public Boss(Position p, int level) {
-        super(IMAGE, p, level>3?3:level);
+        super(IMAGEF, p, level>3?3:level);
         this.state = 'f';
         this.time = System.currentTimeMillis();
     }

@@ -25,53 +25,51 @@ import java.util.Random;
 
 
 public class World {
-	// l'ensemble des monstres, pour gerer (notamment) l'affichage
-	private LinkedList<Monster> monsters = new LinkedList<Monster>();
-	
-	// l'ensemble des monstres, pour gerer (notamment) l'affichage
-	private ArrayList<Tower> towers = new ArrayList <Tower>();
-
-	//l'ensemble des missiles, pour gerer (notamment) l'affichage
-	private List<Missile> missiles = new LinkedList<Missile>();
-	
-	//l'ensemble des boutons
+	/*
+	 * l'ensemble des monstres, tours, missiles, boutons, chemin suivie par les monstres,
+	 * du chemin pour gerer (notamment) l'affichage
+	 */
+	private LinkedList<Monster> monsters;
+	private ArrayList<Tower> towers;
+	private List<Missile> missiles;
 	private List<Button> buttons;
+	private ArrayList<Position> pathMonsters;	
+	private Set<Position> path;
 	
+
 	// Position par laquelle les monstres vont venir
-	private Position spawn;
+	private Position spawn;	
 	
-	// Information sur la taille du plateau de jeu
+	/*
+	 * Information sur la taille du plateau de jeu
+	 * ainsi que la police d'écriture utilisée
+	 */
 	private int nbSquareX;
 	private int nbSquareY;
 	private double squareWidth;
 	private double squareHeight;
-	
-	// Nombre de points de vie du joueur
-	private int life = 20;
-	
-	//Nombre d'argent du joueur
-	private int money = 100;
-	
-	// Action correspondant au bouton sur lequel le joueur appuie
-	private char action;
-	
-	// Condition pour terminer la partie
-	private boolean end = false;
-	
-	//Chemin des monstres
-	private ArrayList<Position> pathMonsters;
-	
-	//Positions des images du chemin
-	private Set<Position> path;
-	
-	//Gestion des vagues de monstres
-	private Waves waves;
-	
-	//Font des écritures
 	private Font font;
 	
-	//Message à écrite
+	/*
+	 * Informations sur la vie, l'argent du joueur
+	 */
+	private int life = 20;
+	private int money = 100;
+	
+	
+	/*
+	 * Gestions des flux (des vagues de monstres, des messages,
+	 * des actions effectuées par le joueur, du jeu)
+	 */
+	private Waves waves;
 	private String message;
+	private String alertMessage;
+	private char action;
+	private boolean end = false;
+	private boolean start = false;
+	private boolean canChangePath = true;
+	
+	
 	
 	
 	/**
@@ -83,28 +81,55 @@ public class World {
 	 * @param startSquareX
 	 * @param startSquareY
 	 */
-	public World(int width, int height, int nbSquareX, int nbSquareY, int startSquareX, int startSquareY, int nbwaves) {
+	public World(int width, int height, int nbSquareX, int nbSquareY, int nbwaves) {
 		StdDraw.setXscale(0, 1.25);
 		this.nbSquareX = nbSquareX;
 		this.nbSquareY = nbSquareY;
 		squareWidth = (double) 1 / nbSquareX;
 		squareHeight = (double) 1 / nbSquareY;
-		spawn = createPosition(startSquareX, startSquareY);
+		spawn = createPosition(nbSquareX-2, nbSquareY-1);
 		message = "";
-		initPath(startSquareX, startSquareY);
-		initButton();
 		font = new Font("TimesNewRoman", Font.BOLD, 20);
+		initLists();
+		initPath();
+		initButton();
 		waves = new Waves(nbwaves);
 		waves.newWave();
 	}
+	
+	
+	
+	private void initButton() {
+		buttons.add(new ButtonImage(new Position(1.03, 0.65), "images/ArcherTowerLevel3.png", 'a', 0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.03, 0.55), "images/BombTowerLevel3.png", 'b',  0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.03, 0.45), "images/up1.png", 'u', 0.02, 0.02));
+		buttons.add(new ButtonImage(new Position(1.03, 0.35), "images/box.png", 'r', 0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.175, 0.025), "images/exit.png", 'e', 0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.025, 0.025), "images/play.png", '>', 0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.075, 0.025), "images/pause.png", '=', 0.05, 0.05));
+		buttons.add(new ButtonImage(new Position(1.125, 0.025), "images/changePath.png", 'p', 0.05, 0.05));
+	}
+	
+	
+	
+	private void initLists() {
+		missiles = new LinkedList<Missile>();
+		towers = new ArrayList <Tower>();
+		monsters = new LinkedList<Monster>();
+		pathMonsters = new ArrayList<Position>();
+		path = new TreeSet<Position>();
+		buttons = new LinkedList<Button>();
+	}
 
+	
+	
 	/**
 	 * Initialise le chemin sur lequel passera les monstres
 	 */
-	public void initPath(int startSquareX, int startSquareY){
+	public void initPath(){
 		//Prend des points au hasard dans le cadrillage
 		int[][] chemin = new int[5][2]; //on prend 5 points sur le cadrillage
-		chemin[0][0] = startSquareX; chemin[0][1] = startSquareY;
+		chemin[0][0] = nbSquareX-2; chemin[0][1] = nbSquareY-1;
 		Random rd = new Random();
 		int index = 1;
 		while (index!=4) {
@@ -125,8 +150,6 @@ public class World {
 		
 		//on transforme les points en Position dans le canevas
 		//on relie les points
-		pathMonsters = new ArrayList<Position>();
-		path = new TreeSet<Position>();
 		//on parcourt la liste de point créer précédement
 		for (int i=1; i<chemin.length; i++) {
 			int x = chemin[i-1][0]; int y = chemin[i-1][1];
@@ -146,30 +169,17 @@ public class World {
 		path.add(p);
 		pathMonsters.add(p);
 	}
-	
 	private int signe(int n) {
 		return (n>0)?1:-1;
 	}
-	
 	private boolean equalsTo(int a, int x, int epsilon) {
 		return a-epsilon<=x && x<=a+epsilon;
 	}
-
 	private Position createPosition(int x, int y) {
 		return new Position(x * squareWidth + squareWidth / 2, y * squareHeight + squareHeight / 2);
 	}
 	
-	private void initButton() {
-		buttons = new LinkedList<Button>();
-		buttons.add(new ButtonImage(new Position(1.03, 0.65), "images/ArcherTowerLevel3.png", 'a', 0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.03, 0.55), "images/BombTowerLevel3.png", 'b',  0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.03, 0.45), "images/up1.png", 'u', 0.02, 0.02));
-		buttons.add(new ButtonImage(new Position(1.03, 0.35), "images/box.png", 'r', 0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.175, 0.025), "images/exit.png", 'e', 0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.025, 0.025), "images/play.png", '>', 0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.075, 0.025), "images/pause.png", '=', 0.05, 0.05));
-		buttons.add(new ButtonImage(new Position(1.125, 0.025), "images/changePath.png", 'p', 0.05, 0.05));
-	}
+	
 	
 	/**
 	 * Définit le décors du plateau de jeu.
@@ -179,6 +189,8 @@ public class World {
 			 for (int j = 0; j < nbSquareY; j++)
 				 StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/Grass.png", squareWidth, squareHeight);
 	 }
+	 
+	 
 	 
 	 /**
 	  * Initialise le chemin sur la position du point de départ des monstres. Cette fonction permet d'afficher une route qui sera différente du décor.
@@ -193,6 +205,8 @@ public class World {
 		 StdDraw.picture((nbSquareX-1) * squareWidth + squareWidth / 2, (nbSquareY-1) * squareHeight + squareHeight / 2, "images/Castel.png", squareWidth, squareHeight);
 		  
 	 }
+	 
+	 
 	 
 	 /**
 	  * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
@@ -213,6 +227,8 @@ public class World {
 		 StdDraw.text(1.07, 0.75, Integer.toString(waves.nbWaves-waves.waveCounter));
 	 }
 	 
+	 
+	 
 	 /**
 	  * Affichage des boutons au niveau du menu
 	  */
@@ -221,23 +237,12 @@ public class World {
 			 b.draw();
 	 }
 	 
-	 /**
-	  * Affichage du menu
-	  */
-	 public void drawMenu() {
-		 actionRealized(action);
-		 StdDraw.setPenColor(StdDraw.LIGHT_GREEN);
-		 StdDraw.filledRectangle(1.125, 0.5, 0.125, 0.5);
-		 drawInfos();
-		 drawButtons();
-		 drawMenuText();
-	 }
-	 
 	 
 	 /**
 	  * Affichage du texte du menu
 	  */
 	 public void drawMenuText() {
+		 StdDraw.setFont(font);
 		 StdDraw.setPenColor(StdDraw.BLACK);
 		 StdDraw.picture(1.125, 0.95, "images/menu.png", 0.2, 0.07);
 		 StdDraw.text(1.15, 0.65, "Archer Tower (cost 50g)");
@@ -249,6 +254,21 @@ public class World {
 		 StdDraw.text(1.05, 0.17, "Message :");
 		 StdDraw.text(1.125, 0.12, message);
 	 }
+	 
+	 
+	 /**
+	  * Affichage du menu
+	  */
+	 public void drawMenu() {
+		 actionRealized();
+		 StdDraw.setPenColor(StdDraw.LIGHT_GREEN);
+		 StdDraw.filledRectangle(1.125, 0.5, 0.125, 0.5);
+		 drawInfos();
+		 drawButtons();
+		 drawMenuText();
+	 }
+	 
+	 
 	 
 	 /**
 	  * Fonction qui récupère le positionnement de la souris et permet d'afficher une image de tour en temps réél
@@ -287,7 +307,9 @@ public class World {
 			break;
 		}
 	 }
-		 
+	
+	 
+	 
 	 /**
 	  * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster.
 	  * Modifie la position du monstre au cours du temps à l'aide du paramètre nextP.
@@ -340,6 +362,8 @@ public class World {
 		 }
 	 }
 	 
+	 
+	 
 	 /**
 	  * Met à jour les projectiles : les faits avancer et les détruits si besoin
 	  */
@@ -356,26 +380,31 @@ public class World {
 		 }
 	 }
 	 
+	 
+	 
 	 /**
 	  * Met à jour les boutons
 	  */
 	 public void updateButtons() {
-		 Iterator<Button> ib = buttons.iterator();
-		 while (ib.hasNext()) {
-			 Button b = ib.next();
+		 for (Button b : buttons) {
 			 if (b.isClicked()) action = b.getAction();
 		 }
 	 }
 	 
+	 
+	 
 	 /**
 	  * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours.
-	  * @return les points de vie restants du joueur
 	  */
-	 public int update() {
+	 public void updateGame() {
 		drawBackground();
 		drawMenu();
 		drawPath();
 		updateButtons();
+	 }
+	 
+	 
+	 public int updateCharacter() {
 		updateMonsters();
 		updateTowers();
 		updateMissiles();
@@ -383,13 +412,13 @@ public class World {
 		return life;
 	 }
 
+	 
+	 
 	/**
-	 * Récupère la touche appuyée par l'utilisateur et affiche les informations pour la touche séléctionnée
-	 * @param key la touche utilisée par le joueur
+	 * Récupère l'action choisie par l'utilisateur et affiche les informations pour la touche séléctionnée
 	 */
-	public void actionRealized(char action) {
+	public void actionRealized() {
 		action = Character.toLowerCase(action);
-		this.action = action;
 		switch (action) {
 		case 'a':
 			message = "Arrow Tower selected";
@@ -409,6 +438,8 @@ public class World {
 			message = "Exiting";
 		}
 	}
+	
+	
 	
 	/**
 	 * Vérifie lorsque l'utilisateur clique sur sa souris qu'il peut: 
@@ -435,7 +466,7 @@ public class World {
 					towers.add(new ArcherTower(mouse));
 					this.money-=ArcherTower.PRICE;
 				}
-				else message = "You haven't got enought money!";
+				else alertMessage = "You haven't got enought money!";
 			}
 			break;
 		case 'b':
@@ -444,7 +475,7 @@ public class World {
 					towers.add(new BombTower(mouse));
 					this.money-=BombTower.PRICE;
 				}
-				else message = "You haven't got enought money!";
+				else alertMessage = "You haven't got enought money!";
 				
 			}
 			break;
@@ -455,7 +486,7 @@ public class World {
 					t.updating();
 					this.money -= Tower.UPDATEPRICE;
 				}
-				else message = "The tower can't be updated!";
+				else alertMessage = "The tower can't be updated!";
 			}
 			break;
 		case 'r':
@@ -465,11 +496,18 @@ public class World {
 					t.recharge();
 					this.money -=t.getRechargingPrice();
 				}
-				else message = "You haven't got enought money!";
+				else alertMessage = "You haven't got enought money!";
 			}
+			break;
 		}
+		StdDraw.pause(50);
 	}
 	
+	
+	
+	/**
+	 * Fonction qui permet de gérer les différentes vagues de monstres
+	 */
 	public void controleWaves() {
 		Monster m = waves.createMonster(spawn.clone());
 		if (m!=null) {
@@ -483,26 +521,47 @@ public class World {
 	}
 	
 	
+	/**
+	 * 
+	 */
+	public void start() {
+		if (!start) {
+			waves.newWave();
+			start = false;
+			canChangePath = false;
+		}
+	}
+	
+	public void changePath() {
+		if (canChangePath)
+			initPath();
+	}
+	
+	public void pause() {
+		//TODO : à finir
+	}
 	
 	/**
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et met à jour le plateau en fonction de ces interractions
 	 */
-	public boolean run() {
+	public void run() {
 		while(!end) {	
-			StdDraw.clear();			
-			if (StdDraw.isMousePressed()) {
+			StdDraw.clear();
+//			if (start) {
+				if (StdDraw.isMousePressed()) {
 				mouseClick(StdDraw.mouseX(), StdDraw.mouseY());
-				StdDraw.pause(50);
-			}
-			controleWaves();
-			end = update()==0 || action=='e'|| (waves.end() && monsters.size()==0);
+				}
+				controleWaves();
+				updateGame();
+				end = updateCharacter()==0 || action=='e'|| (waves.end() && monsters.size()==0);
+//			}
+//			updateGame();
 			StdDraw.show();
 			StdDraw.pause(20);
 		}
-
-		end(waves.end() && monsters.size()==0);
-		System.out.println("fin");
-		return waves.end();
+		//fin du jeu
+		boolean victory = waves.end() && monsters.size()==0;
+		end(victory);
 	}
 	
 	/**

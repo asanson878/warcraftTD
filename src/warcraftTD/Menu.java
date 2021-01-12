@@ -25,8 +25,6 @@ final public class Menu {
 		height = 800;
 		nbSquareX = 16;
 		nbSquareY = 16;
-		startX = 14;
-		startY = 15;
 		menu();
 
 		StdDraw.setCanvasSize(width, height);
@@ -69,7 +67,7 @@ final public class Menu {
 	
 	public void playGame() {
 		int nbWaves = 10;
-		World w = new World(width, height, nbSquareX, nbSquareY, startX, startY, nbWaves);
+		World w = new World(width, height, nbSquareX, nbSquareY, nbWaves);
 		w.run();
 		//une fois que joue est fini, on revient au menu
 		menu();
