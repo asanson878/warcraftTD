@@ -59,7 +59,7 @@ public class Boss extends Monster {
         return image;
     }
     @Override
-    public void draw(double normalisedX, double normalisedY) {
+    public void draw(double normalizedX, double normalizedY) {
         StdDraw.picture(getP().getX(), getP().getY(), transform(), normalizedX, normalizedY);
    }
 }
