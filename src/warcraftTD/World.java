@@ -19,6 +19,7 @@ import warcraftTD.util.buttons.ButtonImage;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.awt.Color;
 import java.awt.Font;
 import java.util.Random;
 
@@ -307,7 +308,7 @@ public class World {
 		StdDraw.text(1.13, 0.3, "Cost : 100g (Archer Tower)");
 		StdDraw.text(1.13, 0.25, "Cost : 50g (Bomb  Tower) ");
 		StdDraw.text(1.05, 0.17, "Message :");
-		StdDraw.text(1.125, 0.12, message);
+		StdDraw.text(1.125, 0.14, message);
 		StdDraw.setPenColor(StdDraw.RED);
 		StdDraw.text(1.125, 0.07, alertMessage);
 	}
@@ -316,8 +317,7 @@ public class World {
 	 * Affichage du menu
 	 */
 	public void drawMenu() {
-		StdDraw.setPenColor(StdDraw.LIGHT_GREEN);
-		StdDraw.filledRectangle(1.125, 0.5, 0.125, 0.5);
+		StdDraw.picture(1.125, 0.5, "images/menuBackground.jpg", 0.25, 1);
 		drawInfos();
 		drawButtons();
 		drawMenuText();
