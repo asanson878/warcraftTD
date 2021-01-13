@@ -19,7 +19,6 @@ import warcraftTD.util.buttons.ButtonImage;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.awt.Color;
 import java.awt.Font;
 import java.util.Random;
 
@@ -84,7 +83,7 @@ public class World {
 		squareWidth = (double) 1 / nbSquareX;
 		squareHeight = (double) 1 / nbSquareY;
 
-		spawn = createPosition(nbSquareX - 2, nbSquareY - 1);
+		spawn = createPosition(0 , nbSquareY - 1);
 		initLists();
 		initPath();
 		initButton();
@@ -126,18 +125,19 @@ public class World {
 	 */
 	public void initPath() {
 		// Prend des points au hasard dans le cadrillage
-		int[][] chemin = new int[5][2]; // on prend 5 points sur le cadrillage
-		chemin[0][0] = nbSquareX - 2;
+		int[][] chemin = new int[6][2]; // on prend 5 points sur le cadrillage
+		chemin[0][0] = 0;
 		chemin[0][1] = nbSquareY - 1;
 		Random rd = new Random();
 		int index = 1;
-		while (index != 4) {
+		while (index != chemin.length-1) {
 			int x = rd.nextInt(nbSquareX - 2);
 			int y = rd.nextInt(nbSquareY);
 			int j = 0;
 			// vérfie certaines conditions sur les points
 			// les points doivent être sur des lignes et des colonnes différentes
-			while (j != index && !(equalsTo(chemin[j][0], x, 1) || equalsTo(chemin[j][1], y, 1)))
+			while (j != index && !(equalsTo(chemin[j][0], x, 1) || equalsTo(chemin[j][1], y, 1))
+					&& !equalsTo(1, y, 1))
 				j++;
 			if (j == index) {
 				chemin[index][0] = x;
@@ -146,8 +146,8 @@ public class World {
 			}
 		}
 		// ajout du point d'arrivé
-		chemin[4][0] = nbSquareX - 1;
-		chemin[4][1] = nbSquareY - 1;
+		chemin[chemin.length-1][0] = nbSquareX - 1;
+		chemin[chemin.length-1][1] = 0;
 
 		// on transforme les points en Position dans le canevas
 		// on relie les points
