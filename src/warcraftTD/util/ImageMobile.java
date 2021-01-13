@@ -65,9 +65,10 @@ abstract public class ImageMobile {
 	 * Dessine une image dans le canevas à échelle des autres images
 	 * @param normalizedX l'échelle des x
 	 * @param normalizedY l'échelle des y
+	 * @param run indique si l'image peut bouger
 	 */
-	public void update(double normalizedX, double normalizedY) {
-		move();
+	public void update(double normalizedX, double normalizedY, boolean run) {
+		if (run) move();
 		draw(normalizedX, normalizedY);
 	}
 	

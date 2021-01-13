@@ -18,7 +18,7 @@ TowerDefence (titre du menu)			Fontwork libre office
 boulder (Licences creative commons)		https://pixabay.com/fr/vectors/roches-pierre-montagne-sarcelle-576655/
 Bomb						https://www.maxpixel.net/Cartoon-Iconic-Bomb-2025548
 forbidden (Licences creative commons)		https://pixabay.com/fr/vectors/interdit-red-stop-inscrivez-vous-5469452/
-box	(copyright)				https://csgostash.com/case/4/CS:GO-Weapon-Case-2
+recharging (copyright)				https://csgostash.com/case/4/CS:GO-Weapon-Case-2
 pause						https://fr.pngtree.com/so/pause
 leave						https://pixy.org/4851663/
 play						https://pixabay.com/fr/vectors/jouer-ic%C3%B4ne-fond-d-%C3%A9cran-libre-1173495/

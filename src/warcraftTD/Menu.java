@@ -14,8 +14,6 @@ final public class Menu {
 	private int height;
 	private int nbSquareX;
 	private int nbSquareY;
-	private int startX;
-	private int startY;
 	private LinkedList<Button> buttons;
 	private Font f;
 	
@@ -35,9 +33,9 @@ final public class Menu {
 		StdDraw.setScale();
 		f = new Font("TimesNewRoman", Font.BOLD, 60);
 		buttons = new LinkedList<Button>();
-		buttons.add(new ButtonText(new Position(0.5, 0.5), "Play", 'p' , f, width, height));
-		buttons.add(new ButtonText(new Position(0.5, 0.3), "Rules", 'r', f, width, height));
-		buttons.add(new ButtonText(new Position(0.5, 0.1), "Exit", 'q', f, width, height));
+		buttons.add(new ButtonText(new Position(0.5, 0.6), "Play", 'p' , f, width, height));
+		buttons.add(new ButtonText(new Position(0.5, 0.45), "Rules", 'r', f, width, height));
+		buttons.add(new ButtonText(new Position(0.5, 0.3), "Exit", 'q', f, width, height));
 	}
 	
 
@@ -78,8 +76,11 @@ final public class Menu {
 	}
 	
 	public void drawBackGround() {
-		StdDraw.picture(0.5, 0.5, "images/menuBackground.jpg", 1, 1);
-		StdDraw.picture(0.5, 0.8, "images/titre.png");
+		StdDraw.picture(0.5, 0.5, "images/menuBackground.png", 1, 1);
+		StdDraw.picture(0.5, 0.88, "images/titre.png");
+		StdDraw.setFont();
+		StdDraw.setPenColor();
+		StdDraw.text(0.84, 0.01, "Prince KOUGANG, Alexis SANSON");
 	}
 	
 	public void run() {

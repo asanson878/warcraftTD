@@ -34,8 +34,8 @@ public abstract class Monster extends ImageMobile {
 	 * @param normalizedY l'échelle des y
 	 */
 	@Override
-	public void update(double normalizedX, double normalizedY) {
-		super.update(normalizedX, normalizedY);
+	public void update(double normalizedX, double normalizedY, boolean run) {
+		super.update(normalizedX, normalizedY, run);
 	}
 	
 	//TODO : faire la javadoc !
