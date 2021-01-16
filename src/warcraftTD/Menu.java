@@ -33,7 +33,7 @@ final public class Menu {
 	}
 	
 	/**
-	 * Crée
+	 * Crée menu du programme
 	 */
 	public void menu() {
 		StdDraw.setScale();
