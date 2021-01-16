@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import warcraftTD.missiles.Missile;
+import warcraftTD.monsters.Boss;
 import warcraftTD.monsters.Monster;
 import warcraftTD.towers.ArcherTower;
 import warcraftTD.towers.BombTower;
@@ -99,7 +100,9 @@ public class World {
 		waves = new Waves(nbwaves);
 		waves.newWave();
 	}
-
+	/**
+	 * Affichage des bouttons dans le menu
+	 */
 	private void initButton() {
 		buttons.add(new ButtonImage(new Position(1.03, 0.65), "images/ArcherTowerLevel3.png", 'a', 0.05, 0.05));
 		buttons.add(new ButtonImage(new Position(1.03, 0.55), "images/BombTowerLevel3.png", 'b', 0.05, 0.05));
@@ -110,7 +113,9 @@ public class World {
 		buttons.add(new ButtonImage(new Position(1.075, 0.025), "images/break.png", '=', 0.05, 0.05));
 		buttons.add(new ButtonImage(new Position(1.125, 0.025), "images/changePath.png", 'p', 0.05, 0.05));
 	}
-
+	/**
+	 * Initialiase la liste des objets
+	 */
 	private void initLists() {
 		missiles = new LinkedList<Missile>();
 		towers = new ArrayList<Tower>();
@@ -177,16 +182,17 @@ public class World {
 		return (n > 0) ? 1 : -1;
 	}
 
+	//Hitbox pour gérer la création du chemin
 	private boolean equalsTo(int a, int x, int epsilon) {
 		return a - epsilon <= x && x <= a + epsilon;
 	}
-
+	//Crée de nouvelle position 
 	private Position createPosition(int x, int y) {
 		return new Position(x * squareWidth + squareWidth / 2, y * squareHeight + squareHeight / 2);
 	}
 
 	/**
-	 * 
+	 * Indique si le jeu doit jouer ou pas 
 	 */
 	public void runable() {
 		if (!run) {
@@ -198,14 +204,19 @@ public class World {
 			run = true;
 		}
 	}
-
-	public void changePath() {
+	/**
+	 * Génération aléatoire des chemins
+	 */
+	 public void changePath() {
 		path = new TreeSet<Position>();
 		pathMonsters = new ArrayList<Position>();
 		initPath();
 		action = ' ';
 	}
 
+	/**
+	 * Met le jeu en pause
+	 */
 	public void takeBreak() {
 		if (run) {
 			run = false;
@@ -220,6 +231,13 @@ public class World {
 		return positionst;
 	}
 
+	/**
+	 * Initialise une nouvelle tour dans le jeu
+	 * @param mouse la position de la sourie
+	 * @param c indique quelle type de tour on doit construire ('a' pour archertower et 'b' pour bombtower)
+	 * @param positionst liste de position des tours 
+	 * 					(on ne peut pas construire une tour à une position où il en existe dejà)
+	 */
 	public void newTower(Position mouse, char c, Map<Position, Tower> positionst) {
 		if (!path.contains(mouse) && !positionst.containsKey(mouse) && mouse.getX() < 1) {
 			int price = (c == 'a') ? ArcherTower.PRICE : BombTower.PRICE;
@@ -232,14 +250,19 @@ public class World {
 		}
 	}
 
+	/**
+	 * Augmente le niveau d'une tour si le joueur a assez d'argent
+	 * @param mouse la position de la souris
+	 * @param positionst la liste des positions des tours
+	 */
 	public void updateTowerClicked(Position mouse, Map<Position, Tower> positionst) {
 		if (positionst.containsKey(mouse) && mouse.getX() < 1) {
 			Tower t = positionst.get(mouse);
 			if (this.money >= Tower.UPDATEPRICE && t.isUpdatable()) {
 				t.updating();
 				this.money -= Tower.UPDATEPRICE;
-			} else
-				alertMessage = "The tower can't be updated!";
+			} else if (this.money<0) alertMessage = "No enought money!";
+			else alertMessage = "Can't be updated anymore!";
 		}
 	}
 
@@ -260,7 +283,7 @@ public class World {
 	public void drawPath() {
 		for (Position p : path)
 			StdDraw.picture(p.getX(), p.getY(), "images/Path.png", squareWidth, squareHeight);
-		StdDraw.picture(spawn.getX(), spawn.getY(), "images/Forest.jpg", squareWidth, squareHeight);
+		StdDraw.picture(spawn.getX(), spawn.getY(), "images/Door.png", squareWidth, squareHeight);
 		Position end = pathMonsters.get(pathMonsters.size() - 1);
 		StdDraw.picture(end.getX(), end.getY(), "images/Castel.png", squareWidth, squareHeight);
 
@@ -310,7 +333,7 @@ public class World {
 		StdDraw.text(1.05, 0.17, "Message :");
 		StdDraw.text(1.125, 0.14, message);
 		StdDraw.setPenColor(StdDraw.RED);
-		StdDraw.text(1.125, 0.07, alertMessage);
+		StdDraw.text(1.125, 0.11, alertMessage);
 	}
 
 	/**
@@ -399,7 +422,7 @@ public class World {
 				t.recharge();
 				this.money -= t.getRechargingPrice();
 			} else
-				alertMessage = "You haven't got enought money!";
+				alertMessage = "Not enought money!";
 		}
 
 	}
@@ -430,7 +453,7 @@ public class World {
 				if (m.isDead())
 					this.money += m.getReward();
 				if (m.getReached())
-					life--;
+					life -= m.minusLPPlayer();
 				it.remove();
 			}
 		}
@@ -469,7 +492,7 @@ public class World {
 		Missile msl;
 		while (it.hasNext()) {
 			msl = it.next();
-			if (msl.getP().equals(msl.getTarget().getP(), 0.01)) {
+			if (msl.getP().equals(msl.getTarget().getP(), 0.025)) {
 				msl.hit();
 				it.remove();
 			} else

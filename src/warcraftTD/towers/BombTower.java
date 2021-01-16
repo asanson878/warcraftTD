@@ -10,7 +10,7 @@ public class BombTower extends Tower{
 	public static final int SPEEDREACHARGING = 20;
 	public static final int PRICE = 60;
 	public static final double  REACH = 0.10;
-	private static final int NBMISSILES = 30;
+	private static final int NBMISSILES = 150;
 	private static final int RECHARGINGPRICE = 50;
 
 	/**

@@ -11,7 +11,7 @@ public class ArcherTower extends Tower {
 	public static final int SPEEDRECHARGING = 15;
 	public static final int PRICE = 50;
 	public static final double  REACH = 0.12;
-	private static final int NBMISSILE = 50;
+	private static final int NBMISSILE = 100;
 	private static final int RECHARGINGPRICE = 100;
 
 	/**

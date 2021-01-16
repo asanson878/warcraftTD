@@ -1,7 +1,6 @@
 SOURCES
 
 path + grass (licence surement avec copyright)	https://i.redd.it/kf7sjaq8yfyy.png + paint.net (selection herbe et chemin)
-castel (Licences creative commons)		https://www.vhv.rs/viewpic/hoRxbRw_walled-town-clip-arts-fortified-clipart-hd-png/ + paint.net (redimensionnement)
 vague (Licences creative commons)		https://pixy.org/289857/ + paint.net (redimensionnement) 
 victory (Licences creative commons)		https://pixabay.com/fr/vectors/fame-couronne-de-laurier-victoire-156160/ + paint.net (ajout de VICTORY) 
 game over (Licences creative commons)		https://pixabay.com/fr/vectors/en-cas-d-%C3%A9chec-%C3%A9chec-perte-1288346/ + paint.net (ajout de GAME OVER)
@@ -24,3 +23,7 @@ leave						https://pixy.org/4851663/
 play						https://pixabay.com/fr/vectors/jouer-ic%C3%B4ne-fond-d-%C3%A9cran-libre-1173495/
 menu						fontwork libre office
 menuBackground(png)				https://fermersadovod.ru/landshaft/gazon/posevnoj-gazon/  +  crayon paint.net pour le chemin
+Castle                     https://www.vhv.rs/viewpic/xRxoJ_castle-png-transparent-png/
+Spawn                       https://www.vhv.rs/viewpic/TJmmi_stick-man-pixel-art-hd-png-download/
+BossInFire                  https://www.vhv.rs/viewpic/iRThhJR_zelda-wind-waker-mini-bosses-png-download-zelda/
+Boss                        https://www.vhv.rs/viewpic/Tiwxihw_maplestory-boss-png-download-maplestory-bosses-transparent-png/

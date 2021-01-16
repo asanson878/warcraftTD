@@ -42,17 +42,21 @@ public abstract class Missile extends ImageMobile{
 	public void hit() {
 		this.target.takeLifePoint(damage);
 	}
-	
+	/**
+	 * retourn le monstre à attaquer (cible)
+	 */
 	public Monster getTarget() {
 		return target;
 	}
 
-
+	/*
+	 * Getteurs et Setteurs
+	 */
 	public void setTarget(Monster target) {
 		this.target = target;
 	}
 
-
+	
 	public int getDamage() {
 		return damage;
 	}

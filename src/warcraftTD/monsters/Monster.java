@@ -27,18 +27,11 @@ public abstract class Monster extends ImageMobile {
 		this.setReward(level);
 		super.setSpeed(this.setSpeed(level));
 	}
-
-	/**
-	 * Met à jour le monstre à l'échelle vis-à-vis des autres images
-	 * @param normalizedX l'échelle des x
-	 * @param normalizedY l'échelle des y
-	 */
-	@Override
-	public void update(double normalizedX, double normalizedY, boolean run) {
-		super.update(normalizedX, normalizedY, run);
-	}
 	
-	//TODO : faire la javadoc !
+	/**
+	 * Indique si le monstre est mort
+	 * @return vrai si et seulement si la vie du monstre est nulle
+	 */
 	public boolean isDead(){
 		return (life==0);
 	}
@@ -50,6 +43,14 @@ public abstract class Monster extends ImageMobile {
 	public void takeLifePoint(int damage){
 		this.life -= damage;
 		if (this.life<0) this.life = 0;
+	}
+
+	/**
+	 * A appeler une fois que le monstre est mort
+	 * @return le nombre de point de vies en moins que le boss prend s'il atteint le chateau
+	 */
+	public int minusLPPlayer(){
+		return 1;
 	}
 	
 	@Override
@@ -73,11 +74,33 @@ public abstract class Monster extends ImageMobile {
 	}
 	
 	
-	public abstract boolean canBeAttackBy(Tower t);
+
 	/*
 	 * Les méthodes abstraites
 	 */
+
+	/**
+	 * Indique si le monstre peut être attaqué par la tour t
+	 * @param t une tour
+	 */
+	public abstract boolean canBeAttackBy(Tower t);
+	
+	/**
+	 * Initialise le nombre de points de vies du monstre en fonction de son niveau
+	 * @param level le niveau du monstre
+	 */
 	protected abstract void setLife(int level);
+
+	/**
+	 * Initialise la récompense lorsque l'on tue le monstre en fonction de son niveau
+	 * @param level le niveau du monstre
+	 */
 	protected abstract void setReward(int level);
+
+	/**
+	 * Initialise la vitesse du monstre en fonction de son niveau
+	 * @param level le niveau du monstre
+	 * @return la vitesse du monstre
+	 */
 	protected abstract double setSpeed(int level);
 }

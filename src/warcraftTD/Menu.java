@@ -18,7 +18,9 @@ final public class Menu {
 	private LinkedList<Button> buttons;
 	private Font f;
 	
-	//TODO : javadoc
+	/**
+	 * Constructeur du menu
+	 */
 	public Menu() {
 		width = 1500;
 		height = 800;
@@ -30,6 +32,9 @@ final public class Menu {
 		StdDraw.enableDoubleBuffering();
 	}
 	
+	/**
+	 * Crée
+	 */
 	public void menu() {
 		StdDraw.setScale();
 		f = new Font("TimesNewRoman", Font.BOLD, 60);
@@ -40,6 +45,10 @@ final public class Menu {
 	}
 	
 
+	/**
+	 * Met à jour les boutons
+	 * @return l'action que doit réalisé le bouton cliqué, ' ' si aucun bouton cliqué
+	 */
 	public char updateButton() {
 		Iterator<Button> ib = buttons.iterator();
 		char c = ' ';
@@ -51,6 +60,10 @@ final public class Menu {
 		return c;
 	}
 	
+	/**
+	 * Lance la fontion correspondant à l'action
+	 * @param c l'action sélectionnée par le bouton
+	 */
 	public void selected(char c) {
 		switch (c){
 		case 'p':
@@ -64,14 +77,21 @@ final public class Menu {
 		}
 	}
 	
+	/**
+	 * Lance le jeu (world)
+	 */
 	public void playGame() {
-		int nbWaves = 10;
+		int nbWaves = 15;
 		World w = new World(width, height, nbSquareX, nbSquareY, nbWaves);
 		w.run();
 		//une fois que joue est fini, on revient au menu
 		menu();
 	}
 	
+
+	/**
+	 * Affiche les règles à l'écran
+	 */
 	public void rules() {
 		Font f = new Font("TimesNewRoman", Font.BOLD, 13);
 		Button b = new ButtonText(new Position(0.9, 0.05), "Back", 'b', f, width, height);
@@ -87,6 +107,9 @@ final public class Menu {
 		
 	}
 	
+	/**
+	 * Affiche les règles du jeu
+	 */
 	public void rulesText() {
 		Font f;
 		try {
@@ -100,7 +123,7 @@ final public class Menu {
 		StdDraw.setFont(f);
 		StdDraw.setPenColor(new Color(0, 30, 115));
 		StdDraw.text(0.5, 0.8, "Several monsters try to destroy Gangson's Castel !");
-		StdDraw.text(0.5, 0.75, "Help the Gangsoners to eliminat the monsters before the castel will be over.");
+		StdDraw.text(0.5, 0.75, "Help the Gangsoners to eliminate the monsters before the castel will be over.");
 		StdDraw.text(0.5, 0.7, "You will be the chief of our army : contruct towers to kill the monsters");
 		StdDraw.text(0.5, 0.65, "Two differents types of tower : the Archer Tower and the Bomb Tower");
 		StdDraw.text(0.5, 0.60, "The first one is very powerfull with its arrows.");
@@ -113,6 +136,9 @@ final public class Menu {
 		StdDraw.picture(0.8, 0.1, "images/seal.png", 0.1, 0.1);
 	}
 	
+	/**
+	 * Dessin le fond d'écran du menu
+	 */
 	public void drawBackGround() {
 		StdDraw.picture(0.5, 0.5, "images/menuBackground.png", 1, 1);
 		StdDraw.picture(0.5, 0.88, "images/titre.png");
@@ -121,6 +147,10 @@ final public class Menu {
 		StdDraw.text(0.84, 0.01, "Prince KOUGANG, Alexis SANSON");
 	}
 	
+
+	/**
+	 * Boucle principale du menu
+	 */
 	public void run() {
 		boolean quitter = false;
 		while (!quitter) {

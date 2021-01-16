@@ -20,6 +20,9 @@ public class Waves {
 		//
 		boolean premier;
 
+		/*
+		 * Classe privée qui s'occupe d'une vague de monstres
+		 */
 		public Wave(int levels, int nbMonsters){
 			this.levels = levels;
 			this.nbMonsters = nbMonsters;
@@ -28,6 +31,9 @@ public class Waves {
 			this.premier = nbMonsters>1;
 		}
 		
+		/*
+		 * Créer un montres de type type à la position beginMonster
+		 */
 		public Monster createMonster(char type, Position beginMonster) {
 			Monster m = null;
 			long time = System.currentTimeMillis();
@@ -51,12 +57,14 @@ public class Waves {
 			}
 			return m;
 		}
-		
+		 /*
+		  * Indique si la vague est termniée
+		  */
 		public boolean isEmpty() {
 			return this.nbMonsters<=0;
 		}
 	}
-	//TODO : javadoc
+
 	// nombre de vagues
 	int nbWaves;
 	// nombre de monstres
@@ -69,6 +77,11 @@ public class Waves {
 	//indique si la vague est une vague de boss
 	boolean boss;
 	
+
+	/**
+	 * Classe qui gèrent les vagues du jeu
+	 * @param nbWaves le nombre de vagues dans le jeu
+	 */
 	public Waves(int nbWaves) {
 		this.nbWaves = nbWaves + 1;
 		this.nbMonster = 3;
@@ -76,6 +89,9 @@ public class Waves {
 		this.level = 1;
 	}
 
+	/**
+	 * Créer une nouvelle vague
+	 */
 	public void newWave() {
 		this.boss = this.waveCounter!=0 && this.waveCounter%5==0;
 		int nbMonster = this.nbMonster;
@@ -83,9 +99,14 @@ public class Waves {
 		this.wave = new Wave(level, nbMonster);
 		if (this.boss) level++;
 		this.waveCounter++;
-		this.nbMonster += this.nbMonster*this.level;
+		this.nbMonster += 10*this.level;
 	}
 	
+	/**
+	 * Créer un nouveau monstre (un boss au bout de 5 vagues et un monstre marchant ou volant aléatoirement)
+	 * @param beginMonster la position de départ du monstre
+	 * @return le monstre créer
+	 */
 	public Monster createMonster(Position beginMonster) {
 		char c;
 		if (!this.boss){
@@ -96,10 +117,18 @@ public class Waves {
 		return this.wave.createMonster(c, beginMonster);
 	}
 	
+	/**
+	 * Indique si les vagues de monstres sont finis (fin du jeu)
+	 * @return true si et seuelement toutes les vagues sont terminées
+	 */
 	public boolean end() {
 		return this.waveCounter == this.nbWaves && this.wave.isEmpty();
 	}
 	
+	/**
+	 * Indique si une vague de monstre est terminée
+	 * @return true si et seulement si la vague en cours est terminée
+	 */
 	public boolean endWave() {
 		return wave.isEmpty();
 	}

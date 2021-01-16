@@ -113,7 +113,9 @@ public abstract class Tower {
 	 */
 	protected abstract Missile throwMissile(Monster target);
 
-	//TODO : javadoc
+	/*
+	 * Getteur et setteur
+	 */
 	public String getImage() {
 		return image;
 	}

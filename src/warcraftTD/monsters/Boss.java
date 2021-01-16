@@ -1,16 +1,22 @@
 package warcraftTD.monsters;
 
 import warcraftTD.towers.ArcherTower;
+import warcraftTD.towers.BombTower;
 import warcraftTD.towers.Tower;
 import warcraftTD.util.Position;
 
 public class Boss extends Monster {
     private static final String IMAGEF = "images/Boss.png";
     private static final String IMAGEW = "images/BossInFire.png";
-    private static final long TRANSFORMTIME = 1500; // Le monstre se transforme au bout de 20 secondes
+    private static final long TRANSFORMTIME = 12000; // Le monstre se transforme au bout de 12 secondes
     private long time;
     private char state;
 
+    /**
+     * Constructeur du monstre
+     * @param p la position initiale du monstre
+     * @param level le niveau du monstre
+     */
     public Boss(Position p, int level) {
         super(IMAGEF, p, level>3?3:level);
         this.state = 'f';
@@ -38,13 +44,13 @@ public class Boss extends Monster {
     protected void setLife(int level) {
         switch (level) {
         case 1:
-        	life = 100;
+        	life = 250;
         	break;
         case 2:
-        	life = 150;
+        	life = 500;
         	break;
         case 3:
-        	life = 200;
+        	life = 1000;
         	break;
         default:
         	throw new IllegalArgumentException("Level must be between 1 et 3");
@@ -55,9 +61,15 @@ public class Boss extends Monster {
     @Override
 	public boolean canBeAttackBy(Tower t) {
 		transform();
-		return (this.state=='w') || (this.state=='f' && t instanceof ArcherTower);
+		return (this.state=='w' && t instanceof BombTower) || (this.state=='f' && t instanceof ArcherTower);
 	}
-	
+    
+    
+    @Override
+    public int minusLPPlayer(){
+        if (!this.getReached()) return -2; //bonus de point de vie 
+        return 5;
+    }
     
 	/**
 	 * Transforme le boss un autre type au bout de TRANSFORMTIME ms :

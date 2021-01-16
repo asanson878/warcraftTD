@@ -108,6 +108,9 @@ abstract public class ImageMobile {
 		return calculateAngle(this.p, this.nextP);
 	}
 	
+	/**
+	 * Getter et setter
+	 */
 	public Position getP() {
 		return p;
 	}
