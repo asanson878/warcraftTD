@@ -7,7 +7,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import warcraftTD.missiles.Missile;
-import warcraftTD.monsters.Boss;
 import warcraftTD.monsters.Monster;
 import warcraftTD.towers.ArcherTower;
 import warcraftTD.towers.BombTower;

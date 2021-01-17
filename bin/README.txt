@@ -18,14 +18,18 @@ Les tours d’archers :
 * Leurs projectiles sont des flèches
 * Peuvent attaquer les cibles aériennes et terrestres.
 * L’amélioration d’une tour d’archer coute 40 pièces d’or. 
-* Sa recharge en munition coute 60 pièces d’or
+* Sont chargées 100 projectiles 
+* Sa recharge coute 100 pièces d’or
 
 Les tours de bombe : 
 * Coûtent 50 pièces d’or
 * Leurs projectiles sont des bombes
 * Ne peuvent attaquer que les cibles terrestres
 * L’amélioration d’une tour d’archer coute 40 pièces d’or.
-* Sa recharge en munition coute 25 pièces d’or
+* Sont chargées à 150 projectiles
+* Sa recharge coute 50 pièces d’or
+
+
 
 Amélioration des tours :
 * Vous ne pouvez améliorer que deux fois les deux types de tours (passer du niveau 1 au niveau 2, et du niveau 2 au niveau 3) à condition d’avoir suffisamment de pièces d’or.
@@ -33,7 +37,7 @@ Amélioration des tours :
 
 
 Projectiles : 
-Chaque tour à un type spécifique de projectiles : ce sont des bombes ou des flèches en fonction du type de tour. Les flèches peuvent attaquer les cibles aériennes et terrestres tandis que les bombes ne peuvent attaquer que les cibles terrestres. Les flèches font 2 points de dégâts et se déplacent de 0.04, tandis que les bombes font 8 points de dégâts pour une vitesse de déplacement de 0.02.
+Chaque tour à un type spécifique de projectiles : ce sont des bombes ou des flèches en fonction du type de tour. Les flèches peuvent attaquer les cibles aériennes et terrestres tandis que les bombes ne peuvent attaquer que les cibles terrestres. Les flèches font 2 points de dégâts et ont une vitesse d’attaque de 0.04, tandis que les bombes font 8 points de dégâts pour une vitesse d’attaque de 0.02.
 Attention : Les tours ont une quantité de projectile limitée lorsqu’elles attaquent. Lorsqu’une tour n’a plus de munition elle ne peut attaquer, un indicateur  apparait sur la tour, il faut alors penser à la recharger, à condition d’avoir assez de pièces d’or.
 
 Les Monstres : 
@@ -53,8 +57,8 @@ Monstres volants :
 Le boss : 
 * C’est à la fois un monstre terrestre et aériens : en effet il apparaît pour la première fois en monstre aérien et se transforme (changement d’image) ensuite en monstre terrestre au bout de 12 secondes, avant de « redescendre sur terre » en se transformant de nouveau au bout de 12 secondes. Il se transforme ainsi au cours du jeu toutes les 12 secondes.
 * La récompense lorsqu’un boss et détruit est de 80 pièces d’or + plus un bonus de 2 points de vie
-* Mais lorsqu’un boss arrive au château vous perdez 3 points de vie
-* Le boss possède 100 points de vie lorsqu’il apparait pour la première fois, 400 la deuxième fois et 700 la dernière fois
+* Mais lorsqu’un boss arrive au château vous perdez 5 points de vie
+* Le boss possède 250 points de vie lorsqu’il apparait pour la première fois, 500 la deuxième fois et 1000 la dernière fois
 * Particularité : Le boss ne peut être attaquer par les deux types de tours en même temps. En effet il n’est atteint par les tours de d’Archer que lorsqu’il est volant, et n’est attaqué par les tours de bombes que lorsqu’il est terrestre, c’est tout l’intérêt de sa transformation quand il se déplace vers le château.
 
 
