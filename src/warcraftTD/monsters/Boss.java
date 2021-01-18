@@ -24,7 +24,6 @@ public class Boss extends Monster {
         this.time = System.currentTimeMillis();
     }
     
-    //TODO : faire des javadoc
     @Override
     protected void setReward(int level) {
         this.reward = 0;
