@@ -89,4 +89,9 @@ public class Boss extends Monster {
     	transform();
         super.draw(normalizedX, normalizedY);
    }
+
+	@Override
+	public int bonusLPPlayer() {
+		return 2;
+	}
 }

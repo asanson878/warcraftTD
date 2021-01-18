@@ -46,4 +46,9 @@ public class FlyingMonster extends Monster {
 	public boolean canBeAttackBy(Tower t) {
 		return t instanceof ArcherTower;
 	}
+
+	@Override
+	public int bonusLPPlayer() {
+		return 0; //pas de bonus de vie
+	}
 }

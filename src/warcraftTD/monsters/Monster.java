@@ -103,4 +103,10 @@ public abstract class Monster extends ImageMobile {
 	 * @return la vitesse du monstre
 	 */
 	protected abstract double setSpeed(int level);
+
+	/**
+	 * Donne un bonus de vie lorsque l'on tue le monstre
+	 * @return le nombre de points de vie en bonus
+	 */
+	public abstract int bonusLPPlayer();
 }

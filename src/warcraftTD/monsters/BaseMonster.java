@@ -43,4 +43,14 @@ public class BaseMonster extends Monster {
 	public boolean canBeAttackBy(Tower t) {
 		return true;
 	}
+	
+	@Override
+	public int minusLPPlayer() {
+		return 2;
+	}
+
+	@Override
+	public int bonusLPPlayer() {
+		return 0; //pas de bonus de vie
+	}
 }

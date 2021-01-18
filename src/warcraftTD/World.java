@@ -449,10 +449,14 @@ public class World {
 				m.update(squareWidth, squareHeight, run);
 			else {
 				// suppression du monstre
-				if (m.isDead())
+				if (m.isDead()) {
+					//mort avant d'attendre le chateau
 					this.money += m.getReward();
+					life += m.bonusLPPlayer();
+				}
 				if (m.getReached())
 					life -= m.minusLPPlayer();
+				life = life<0?0:life;
 				it.remove();
 			}
 		}
@@ -580,6 +584,23 @@ public class World {
 		}
 	}
 
+	
+	
+	/**
+	 * Affiche une image en fin de partie
+	 * 
+	 * @param victory un boolean : vrai si on gagne, faux sinon
+	 */
+	public void end(boolean victory) {
+		String image = "defeat";
+		if (victory)
+			image = "victory";
+		StdDraw.picture(0.5, 0.5, "/images/" + image + ".png");
+		StdDraw.show();
+		StdDraw.pause(3000);
+	}
+
+	
 	/**
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et
 	 * met à jour le plateau en fonction de ces interractions
@@ -601,17 +622,4 @@ public class World {
 		end(victory);
 	}
 
-	/**
-	 * Affiche une image en fin de partie
-	 * 
-	 * @param victory un boolean : vrai si on gagne, faux sinon
-	 */
-	public void end(boolean victory) {
-		String image = "defeat";
-		if (victory)
-			image = "victory";
-		StdDraw.picture(0.5, 0.5, "/images/" + image + ".png");
-		StdDraw.show();
-		StdDraw.pause(3000);
-	}
 }
